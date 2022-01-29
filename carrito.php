@@ -7,7 +7,7 @@
 
 <?php
 
-    if( isset($_POST['submit1']) || isset($_POST['submit2']) || isset($_POST['submit3'])){
+    if( isset($_POST['submit'])){
         $cantProductos=$_POST['cantProductos'];
         
         if($cantProductos>0){
@@ -22,9 +22,6 @@
             }
         }
 
-        else{
-
-        }
     }
     
 ?>
@@ -36,6 +33,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" type="text/css" href="styleProduct.css">
+    <script type="text/javascript" src="clicks.js" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
  
     <title>Detalles de Compra</title>
@@ -53,27 +51,11 @@
 				return false;   
 			}
 		}
-        
-        var i=0;
 
-        function darClick1(){
-			var boton=document.getElementById('cambiar1');
-            boton.click();
-		}   
-
-        function darClick2(){
-			var boton=document.getElementById('cambiar2');
-            boton.click();
-		}  
-
-        function darClick3(){
-			var boton=document.getElementById('cambiar3');
-            boton.click();
-		}  
 
 	</script>
 
-    <div class="row"><div class="col-10"></div><div class="col-1"><label class="subtitulo"><?php echo $_SESSION['usuario'];?></label></div></div>
+    <div class="row"><div class="col-10"></div><div class="col-1"><label class="subtitulo"><?php echo $_SESSION['usuario'];?></label></div></div><div class="imgUser"><img src='images/cross_icon.ico' height='26'></div>
     <div class="row"><div class="col-4"></div><div class="col-4"><label class="titulo">Detalles de la Compra</label></div></div>
     
         <div class="col-2"></div>
@@ -91,7 +73,7 @@
 					</tr>
 				</thead>
 				<br><br>
-				<tbody>
+				<tbody id="columna">
 					<?php
                         
 						$sqlD = "SELECT * FROM detalle_compra WHERE idCompra='$idCompra'";
@@ -109,11 +91,13 @@
 								<td><?php echo $rowP['nombre']; ?></td>
 								<td><img src="<?php echo $rowP['imagen'];?>" width="180px"></td>
                                 <td>
+
                                     <form action='carrito.php' method="POST">
-                                        <input type="number" name=<?php echo "cantProductos".$i;?> id=<?php echo "cantProductos".$i;?> min="1" value="<?php echo $row['cantProductos'];?>" style="width: 50px;" onchange=<?php echo "darClick".$i."()";?> class="cant" oninput=<?php echo "darClick".$i."()";?>>    
+                                        <input type="number" class="cant" name="cantProductos" min="1" value="<?php echo $row['cantProductos'];?>" style="width: 50px;">    
                                         <input type="hidden" name="idProducto" value="<?php echo $row['idProducto']?>">
-                                        <input type="submit" name=<?php echo "submit".$i;?> id=<?php echo "cambiar".$i;?> class="color">
+                                        <button type="submit" name="submit" class="hidden"></button>
                                     </form>
+
                                 </td>
 								<td><?php echo $row['importe']; ?></td>
 								<td>
@@ -127,10 +111,8 @@
                                     </a>
 								</td>
 							</tr>
-                    <script type="text/javascript">
-                        i++;
-                    </script>
-                            <?php } ?>
+
+                        <?php } ?>
 				</tbody>
 
 			</table><br><br>
@@ -145,9 +127,3 @@
     </div>    
 </body>
 </html>
-/*
-    El cambio de la cantidad de productos en el carrito ya funciona :) 20/02/22 
-    Solo falta arreglar que cuando el usuario borre la cantidad dentro del input "cantProductos" no se ponga 0 por default
-    
-    Para usar js desde php hay que cerrar el fragmento de php en un if y dentro del if añadir un script de js
-    */
