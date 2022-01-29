@@ -51,8 +51,7 @@
 				return false;   
 			}
 		}
-
-
+	    
 	</script>
 
     <div class="row"><div class="col-10"></div><div class="col-1"><label class="subtitulo"><?php echo $_SESSION['usuario'];?></label></div></div><div class="imgUser"><img src='images/cross_icon.ico' height='26'></div>
